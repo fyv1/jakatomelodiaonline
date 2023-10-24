@@ -1,5 +1,3 @@
-    var songid = document.getElementsByName("songid");
-    if (songid === null) songid = "JfJYHfrOGgQ";
     var tag = document.createElement('script');
 
     tag.src = "https://www.youtube.com/iframe_api";
@@ -9,8 +7,8 @@
     var player;
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
-            height: '0',
-            width: '0',
+            height: '100',
+            width: '100',
             videoId: "yOKz82_a2B4",
             events: {}
         });
@@ -22,10 +20,27 @@
     function pauseVideo() {
         player.pauseVideo();
     }
-    function changeVideo() {
-        player.loadVideoById("jO_Zkx2teNI");
+    function changeVideo(id) {
+        console.log(id);
+        console.log("gonna change player?")
+        player.loadVideoById(id);
         player.playVideo();
     }
     function setTime() {
         player.seekTo(53);
+    }
+
+    function sendYtUrl() {
+        var ytId = document.getElementById("vidId").value;
+        var nickname = document.getElementById("nickname").value;
+        stompClient.send("/app/ytvideo", {}, 
+                  JSON.stringify(
+                    {"nickname": nickname, "videoId": ytId}
+                    ));
+    }
+    
+    function showMessageOutput(messageOutput) {
+        console.log("xd "+messageOutput.nickname + " "+ messageOutput.videoId);
+
+        changeVideo(messageOutput.videoId);
     }

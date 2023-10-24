@@ -5,7 +5,7 @@
         stompClient = Stomp.over(socket);  
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/messages', function(messageOutput) {
+            stompClient.subscribe('/topic/yt', function(messageOutput) {
                 showMessageOutput(JSON.parse(messageOutput.body));
             });
         });
@@ -17,7 +17,5 @@
         }
         console.log("Disconnected");
     }
+
     
-    function showMessageOutput(messageOutput) {
-        console.log("xd "+messageOutput.timestamp);
-    }

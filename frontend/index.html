@@ -4,10 +4,19 @@
         
         <script src="stomp.js"></script>
         <script src="sockjs.js"></script>
-    </head>
-	<body>
         <script src="core.js"></script>
         <script src="connect.js"></script>
+    </head>
+	<body>
+        
+        <div>
+            <input type="text" id="nickname" placeholder="podaj nick"/>
+        </div>
+        <div>
+            <input type="text" id="vidId" placeholder="podaj link z yt"/>
+        </div>
+        <button id="sendMessage" onclick="sendYtUrl();">Send</button><br><br>
+
 		<div id="player"></div>
         <button onclick="connect()">Connect</button>
         <button onclick="disconnect()">Disconnect</button>
