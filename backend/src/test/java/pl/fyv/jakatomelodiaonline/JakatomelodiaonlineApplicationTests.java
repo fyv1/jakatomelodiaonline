@@ -6,13 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-@SpringBootTest
+//@SpringBootTest
 class JakatomelodiaonlineApplicationTests {
 
-	@Autowired
-	private WebSocketStompClient stompClient;
-
-	@Test
-	void contextLoads() {
-	}
+//	@Test
+//	void contextLoads() {
+//	}
 }

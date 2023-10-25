@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>test</title>
+		<title>JTM</title>
         
         <script src="stomp.js"></script>
         <script src="sockjs.js"></script>
@@ -18,12 +18,13 @@
         <button id="sendMessage" onclick="sendYtUrl();">Send</button><br><br>
 
 		<div id="player"></div>
-        <button onclick="connect()">Connect</button>
-        <button onclick="disconnect()">Disconnect</button>
-        <button onclick="playVideo()">Start</button>
-        <button onclick="pauseVideo()">Pauza</button>
-        <button onclick="changeVideo()">Zmiana</button>
-        <button onclick="setTime()">Zmień czas</button>
+        <button onclick="sendControl('start');">Start</button>
+        <button onclick="sendControl('pause');">Pauza</button>
+        <br><br><br><br>
+        <div id="surveyed"></div>
+        
+        <button onclick="connect();">Connect</button>
+        <button onclick="disconnect();">Disconnect</button>
 </form>
 </body>
 </html>

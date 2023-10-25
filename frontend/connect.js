@@ -1,12 +1,12 @@
     var stompClient = null;
     
     function connect() {
-        var socket = new SockJS('http://localhost:8080/getYouTubeMovieTimestamp');
+        var socket = new SockJS('http://localhost:8080/ytapp');
         stompClient = Stomp.over(socket);  
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/yt', function(messageOutput) {
-                showMessageOutput(JSON.parse(messageOutput.body));
+                receiveMessageFrame(JSON.parse(messageOutput.body));
             });
         });
     }

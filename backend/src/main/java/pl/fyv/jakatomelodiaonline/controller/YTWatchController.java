@@ -1,25 +1,32 @@
 package pl.fyv.jakatomelodiaonline.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RestController;
-import pl.fyv.jakatomelodiaonline.models.Message;
-import pl.fyv.jakatomelodiaonline.models.YtVideoUrlMessage;
+import pl.fyv.jakatomelodiaonline.models.GameControlMessage;
+import pl.fyv.jakatomelodiaonline.models.GameMessage;
+import pl.fyv.jakatomelodiaonline.models.GameStartMessage;
+import pl.fyv.jakatomelodiaonline.service.YtService;
 
 @RestController
 public class YTWatchController {
 
-    @MessageMapping("/getYouTubeMovieTimestamp")
+    @Autowired
+    YtService ytService;
+
+    @MessageMapping("/broadcast")
     @SendTo("/topic/yt")
-    public Message send() throws Exception {
-        return new Message(1);
+    public GameStartMessage broadcastYtVideo(GameStartMessage gameMessage) throws Exception {
+        System.out.println("Message received broadcastYtVideo: "+ gameMessage.toString());
+        return new GameStartMessage(gameMessage.getNickname(), ytService.getYtIdFromUrl(((GameStartMessage) gameMessage).getVideoId()));
     }
 
-    @MessageMapping("/ytvideo")
+    @MessageMapping("/control")
     @SendTo("/topic/yt")
-    public YtVideoUrlMessage broadcastYtVideo(YtVideoUrlMessage ytVideoUrlMessage) throws Exception {
-        System.out.println("odebrano "+ ytVideoUrlMessage.getVideoId());
-        return new YtVideoUrlMessage(ytVideoUrlMessage.getNickname(), ytVideoUrlMessage.getVideoId());
+    public GameControlMessage controlYtVideo(GameControlMessage gameMessage) throws Exception {
+        System.out.println("Message received controlYtVideo: "+ gameMessage.toString());
+        return new GameControlMessage(gameMessage.getNickname(), gameMessage.getOperation());
     }
 
 }

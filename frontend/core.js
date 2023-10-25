@@ -7,9 +7,9 @@
     var player;
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
-            height: '100',
-            width: '100',
-            videoId: "yOKz82_a2B4",
+            height: '200',
+            width: '200',
+            videoId: "Cm0qaXi9THA",
             events: {}
         });
     }
@@ -21,26 +21,45 @@
         player.pauseVideo();
     }
     function changeVideo(id) {
-        console.log(id);
-        console.log("gonna change player?")
+        document.getElementById("surveyed").innerHTML="";
         player.loadVideoById(id);
         player.playVideo();
     }
-    function setTime() {
-        player.seekTo(53);
+    function showSurveyed(message) {
+        if(message.operation==="pause") {
+            pauseVideo();
+            document.getElementById("surveyed").innerHTML="<h1>"+message.nickname+" zapauzował!!! </h1>";
+        }
+        if(message.operation==="start") {
+            playVideo();
+            document.getElementById("surveyed").innerHTML="<h1>"+message.nickname+" włączył muzykę dalej!!! </h1>";
+        }
     }
+
 
     function sendYtUrl() {
         var ytId = document.getElementById("vidId").value;
         var nickname = document.getElementById("nickname").value;
-        stompClient.send("/app/ytvideo", {}, 
+        stompClient.send("/app/broadcast", {}, 
                   JSON.stringify(
                     {"nickname": nickname, "videoId": ytId}
                     ));
     }
-    
-    function showMessageOutput(messageOutput) {
-        console.log("xd "+messageOutput.nickname + " "+ messageOutput.videoId);
 
-        changeVideo(messageOutput.videoId);
+    function sendControl(operation) {
+        var nickname = document.getElementById("nickname").value;
+        stompClient.send("/app/control", {}, 
+                  JSON.stringify(
+                    {"nickname": nickname, "operation": operation}
+                    ));
+    }
+
+    function receiveMessageFrame(messageOutput) {
+        console.log("DEBUG: "+messageOutput);
+
+        if(messageOutput.videoId !== null)
+            changeVideo(messageOutput.videoId);
+
+        if(messageOutput.operation !== null)
+            showSurveyed(messageOutput);
     }
